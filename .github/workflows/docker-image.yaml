@@ -23,10 +23,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
-            - dockerfile: Dockerfile
+            - dockerfile: ./fah-client-bastet/Dockerfile
               image: ghcr.io/l13t/fah-client-bastet
               context: ./fah-client-bastet
-            - dockerfile: Dockerfile
+            - dockerfile: ./fah-web-client-bastet/Dockerfile
               image: ghcr.io/l13t/fah-web-client-bastet
               context: ./fah-web-client-bastet
     permissions:
