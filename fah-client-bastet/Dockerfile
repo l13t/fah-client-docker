@@ -7,7 +7,6 @@ ARG CLIENT_SOURCE=beta # Possible values: alpha, beta, public
 RUN apt-get update && \
     apt-get install -y curl debconf-utils
 
-# Install folding@home fahclient
 WORKDIR /root
 COPY build.sh /root/build.sh
 RUN bash /root/build.sh ${CLIENT_VERSION} ${CLIENT_SOURCE}
@@ -18,7 +17,6 @@ RUN bash /root/build.sh ${CLIENT_VERSION} ${CLIENT_SOURCE}
 FROM debian:stable-slim
 LABEL maintainer="liet@liet.kiev.ua"
 
-# Default configuration parameters for folding client
 ENV FOLD_USER='' \
     FOLD_PASSKEY='' \
     FOLD_TEAM=0 \
