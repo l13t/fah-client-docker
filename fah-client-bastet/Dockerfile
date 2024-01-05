@@ -23,7 +23,8 @@ ENV FOLD_USER='' \
     FOLD_TEAM=0 \
     FOLD_ALLOW_IP=''
 
-WORKDIR /
+USER root
+
 COPY --from=builder /usr/bin/fah-client /usr/bin/
 COPY --from=builder /etc/ssl /etc/ssl
 

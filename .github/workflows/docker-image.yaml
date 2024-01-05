@@ -23,10 +23,12 @@ jobs:
       fail-fast: false
       matrix:
         include:
-            - dockerfile: ./fah-client-bastet/Dockerfile
+            - dockerfile: Dockerfile
               image: ghcr.io/l13t/fah-client-bastet
-            - dockerfile: ./fah-web-client-bastet/Dockerfile-dril4net-distribution
+              context: ./fah-client-bastet
+            - dockerfile: Dockerfile
               image: ghcr.io/l13t/fah-web-client-bastet
+              context: ./fah-web-client-bastet
     permissions:
         contents: read
         packages: write
@@ -66,10 +68,10 @@ jobs:
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
       - name: Build and push Docker image
-        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        uses: docker/build-push-action@v5
         with:
-          context: .
           file: ${{ matrix.dockerfile }}
+          context: ${{ matrix.context }}
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ matrix.image }}:${{ env.RELEASE_DATE }},${{ matrix.image }}:latest
           labels: ${{ steps.meta.outputs.labels }}
