@@ -4,7 +4,6 @@ FROM debian:stable-slim as builder
 ARG CLIENT_VERSION=8.1.18
 ARG CLIENT_SOURCE=beta # Possible values: alpha, beta, public
 
-USER root
 RUN apt-get update && \
     apt-get install -y curl debconf-utils
 
@@ -29,10 +28,14 @@ WORKDIR /
 COPY --from=builder /usr/bin/fah-client /usr/bin/
 COPY --from=builder /etc/ssl /etc/ssl
 
-RUN mkdir -p /opt/fah-client
+RUN useradd -ms /bin/bash fah-client -u 19000
+
+RUN mkdir -p /opt/fah-client && \
+    chown -R fah-client:fah-client /opt/fah-client
 COPY init.sh /opt/fah-client/init.sh
 RUN chmod u+x /opt/fah-client/init.sh
 
+USER fah-client
 WORKDIR /opt/fah-client
 
 CMD /opt/fah-client/init.sh

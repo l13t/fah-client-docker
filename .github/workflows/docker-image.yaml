@@ -6,11 +6,11 @@ on:
   push:
     branches: [ master ]
     paths:
-      - Dockerfile
-  pull_request:
-    branches: [ master ]
-    paths:
-      - Dockerfile
+      - **/Dockerfile
+  # pull_request:
+  #   branches: [ master ]
+  #   paths:
+  #     - Dockerfile
 
 env:
   REGISTRY: ghcr.io
