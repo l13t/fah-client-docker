@@ -8,6 +8,7 @@ RUN apt-get update && \
     apt-get install -y curl debconf-utils
 
 WORKDIR /root
+
 COPY build.sh /root/build.sh
 RUN bash /root/build.sh ${CLIENT_VERSION} ${CLIENT_SOURCE}
 
