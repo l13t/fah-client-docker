@@ -1,0 +1,8 @@
+[*.yaml]
+tab_width = 2
+indent = 2
+column_limit = 120
+
+[*.md]
+tab_width = 4
+indent = 4
