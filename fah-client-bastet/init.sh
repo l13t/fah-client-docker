@@ -38,8 +38,6 @@ fi
 
 if [ ! -z "$FOLD_ALLOWED_ORIGINS" ]; then
   FAH_ARGS="$FAH_ARGS --allowed-origins=\"$FOLD_ALLOWED_ORIGINS\""
-else
-  FAH_ARGS="$FAH_ARGS --allowed-origins=\"https://app.foldingathome.org\""
 fi
 
 fah-client ${FAH_ARGS}
