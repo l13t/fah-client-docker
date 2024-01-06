@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FAH_ARGS=""
+FAH_ARGS="--web-root=/opt/fah-client/web"
 
 if [ ! -z "$FOLD_USER" ]; then
   FAH_ARGS="$FAH_ARGS --user=$FOLD_USER"
