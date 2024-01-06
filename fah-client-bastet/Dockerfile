@@ -33,7 +33,7 @@ RUN useradd -ms /bin/bash fah-client -u 19000
 RUN mkdir -p /opt/fah-client && \
     chown -R fah-client:fah-client /opt/fah-client
 COPY init.sh /opt/fah-client/init.sh
-RUN chmod u+x /opt/fah-client/init.sh
+RUN chmod +x /opt/fah-client/init.sh
 
 USER fah-client
 WORKDIR /opt/fah-client
