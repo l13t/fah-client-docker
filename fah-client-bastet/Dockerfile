@@ -1,8 +1,8 @@
 FROM debian:stable-slim as builder
 
 # fahclient version
-ARG CLIENT_VERSION=8.1.18
-ARG CLIENT_SOURCE=beta # Possible values: alpha, beta, public
+ARG CLIENT_VERSION=8.3.1
+ARG CLIENT_SOURCE=alpha # Possible values: alpha, beta, public
 
 RUN apt-get update && \
     apt-get install -y curl debconf-utils
@@ -14,7 +14,7 @@ RUN bash /root/build.sh ${CLIENT_VERSION} ${CLIENT_SOURCE}
 
 FROM node:21-alpine as ui-builder
 
-ARG CLIENT_VERSION=8.1.18
+ARG CLIENT_VERSION=8.3.1
 
 WORKDIR /app
 
