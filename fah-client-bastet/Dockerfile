@@ -1,8 +1,8 @@
 FROM debian:stable-slim as builder
 
 # fahclient version
-ARG CLIENT_VERSION=8.2.4
-ARG CLIENT_SOURCE=alpha # Possible values: alpha, beta, public
+ARG CLIENT_VERSION=8.1.18
+ARG CLIENT_SOURCE=beta # Possible values: alpha, beta, public
 
 RUN apt-get update && \
     apt-get install -y curl debconf-utils
@@ -14,12 +14,15 @@ RUN bash /root/build.sh ${CLIENT_VERSION} ${CLIENT_SOURCE}
 
 FROM node:21-alpine as ui-builder
 
+ARG CLIENT_VERSION=8.1.18
+
 WORKDIR /app
 
 RUN apk add --no-cache git && \
     chown node:node /app
 
 RUN git clone https://github.com/FoldingAtHome/fah-web-client-bastet.git . && \
+    git checkout ${CLIENT_VERSION} && \
     npm install && \
     npm run build
 
