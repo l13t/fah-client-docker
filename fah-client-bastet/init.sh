@@ -36,4 +36,10 @@ if [ ! -z "$FOLD_ON_IDLE" ]; then
   FAH_ARGS="$FAH_ARGS --on-idle=$FOLD_ON_IDLE"
 fi
 
+if [ ! -z "$FOLD_ALLOWED_ORIGINS" ]; then
+  FAH_ARGS="$FAH_ARGS --allowed-origins=\"https://alpha.foldingathome.org/ https://api.foldingathome.org/ http://localhost:7396 $FOLD_ALLOWED_ORIGINS\""
+else
+  FAH_ARGS="$FAH_ARGS --allowed-origins=\"https://alpha.foldingathome.org/ https://api.foldingathome.org/ http://localhost:7396\""
+fi
+
 fah-client ${FAH_ARGS}

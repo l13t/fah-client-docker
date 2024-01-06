@@ -7,7 +7,7 @@ ARCH=$(uname -m)
 
 case $ARCH in
 x86_64)
-    ARCH_PATH="10-64bit"
+    ARCH_PATH="stable-64bit"
     ARCH="amd64"
     ;;
 aarch64)

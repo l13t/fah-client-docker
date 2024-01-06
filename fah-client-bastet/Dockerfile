@@ -22,7 +22,8 @@ RUN apk add --no-cache git && \
     chown node:node /app
 
 RUN git clone https://github.com/FoldingAtHome/fah-web-client-bastet.git . && \
-    git checkout ${CLIENT_VERSION} && \
+    git config --global --add safe.directory /app && \
+    git checkout "v${CLIENT_VERSION}" && \
     npm install && \
     npm run build
 
