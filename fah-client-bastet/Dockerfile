@@ -1,7 +1,7 @@
 FROM debian:stable-slim as builder
 
 # fahclient version
-ARG CLIENT_VERSION=8.1.18
+ARG CLIENT_VERSION=8.2.4
 ARG CLIENT_SOURCE=beta # Possible values: alpha, beta, public
 
 RUN apt-get update && \
@@ -51,4 +51,3 @@ WORKDIR /opt/fah-client
 CMD /opt/fah-client/init.sh
 
 EXPOSE 7396
-EXPOSE 36330
