@@ -21,7 +21,8 @@ LABEL maintainer="liet@liet.kiev.ua"
 ENV FOLD_USER='' \
     FOLD_PASSKEY='' \
     FOLD_TEAM=0 \
-    FOLD_ALLOW_IP=''
+    FOLD_ALLOW_IP='' \
+    FOLD_ON_IDLE=false
 
 USER root
 

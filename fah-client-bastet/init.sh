@@ -5,7 +5,7 @@ FAH_ARGS=""
 if [ ! -z "$FOLD_USER" ]; then
   FAH_ARGS="$FAH_ARGS --user=$FOLD_USER"
 else
-  FAH_ARGS="$FAH_ARGS --user=Anonymous"
+  FAH_ARGS="$FAH_ARGS --fold-anon=true"
 fi
 
 if [ ! -z "$FOLD_PASSKEY" ]; then
@@ -30,6 +30,10 @@ fi
 
 if [ ! -z "$FOLD_VERBOSITY" ]; then
   FAH_ARGS="$FAH_ARGS --verbosity=$FOLD_VERBOSITY"
+fi
+
+if [ ! -z "$FOLD_ON_IDLE" ]; then
+  FAH_ARGS="$FAH_ARGS --on-idle=$FOLD_ON_IDLE"
 fi
 
 fah-client ${FAH_ARGS}
