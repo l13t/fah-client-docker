@@ -12,9 +12,17 @@ WORKDIR /root
 COPY build.sh /root/build.sh
 RUN bash /root/build.sh ${CLIENT_VERSION} ${CLIENT_SOURCE}
 
-#############################################
-# Multi-stage build to trim down image size #
-#############################################
+FROM node:21-alpine as ui-builder
+
+WORKDIR /app
+
+RUN apk add --no-cache git && \
+    chown node:node /app
+
+RUN git clone https://github.com/FoldingAtHome/fah-web-client-bastet.git . && \
+    npm install && \
+    npm run build
+
 FROM debian:stable-slim
 LABEL maintainer="liet@liet.kiev.ua"
 
@@ -28,6 +36,7 @@ USER root
 
 COPY --from=builder /usr/bin/fah-client /usr/bin/
 COPY --from=builder /etc/ssl /etc/ssl
+COPY --from=ui-builder /app/dist /opt/fah-client/web
 
 RUN useradd -ms /bin/bash fah-client -u 19000
 
