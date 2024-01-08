@@ -25,9 +25,9 @@ jobs:
             - dockerfile: ./fah-client-bastet/Dockerfile
               image: ghcr.io/l13t/fah-client-bastet
               context: ./fah-client-bastet
-            - dockerfile: ./fah-web-client-bastet/Dockerfile
-              image: ghcr.io/l13t/fah-web-client-bastet
-              context: ./fah-web-client-bastet
+            - dockerfile: ./fah-node/Dockerfile
+              image: ghcr.io/l13t/fah-node
+              context: ./fah-node
     permissions:
         contents: read
         packages: write
