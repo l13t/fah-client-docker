@@ -16,4 +16,4 @@ scons -C fah-node package
 
 ls -la fah-node/*
 
-dpkg --unpack fah-node/fah-node_*_amd64.deb
+dpkg --unpack fah-node/fah-node_0.0.2_arm64.deb
