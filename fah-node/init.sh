@@ -32,9 +32,14 @@ else
     exit 1
 fi
 if [ ! -z "${NODE_HTTP_ADDRESSES}" ]; then
-    ARGS="${ARGS} --http-addresses ${NODE_HTTP_ADDRESSES} --https-addresses ${NODE_HTTP_ADDRESSES}"
+    ARGS="${ARGS} --http-addresses ${NODE_HTTP_ADDRESSES}"
 else
-    ARGS="${ARGS} --http-addresses 0.0.0.0:80 --https-addresses 0.0.0.0:443a"
+    ARGS="${ARGS} --http-addresses 0.0.0.0:80"
+fi
+if [ ! -z "${NODE_HTTPS_ADDRESSES}" ]; then
+    ARGS="${ARGS} --https-addresses ${NODE_HTTPS_ADDRESSES}"
+else
+    ARGS="${ARGS} --https-addresses 0.0.0.0:443"
 fi
 
 echo "Starting fah-node..."

@@ -47,14 +47,13 @@ COPY --from=ui-builder /app/dist /opt/fah-client/web
 RUN groupadd -g 19000 fah-client && \
     adduser --uid 19000 --gid 19000 --home /var/lib/fah-client --quiet fah-client
 
-RUN mkdir -p /opt/fah-client && \
-    chown -R fah-client:fah-client /opt/fah-client
-COPY init.sh /opt/fah-client/init.sh
-RUN chmod +x /opt/fah-client/init.sh
+
+COPY init.sh /usr/bin/fah-client-init
+RUN chmod +x /usr/bin/fah-client-init
 
 USER fah-client
 WORKDIR /var/lib/fah-client
 
-CMD /opt/fah-client/init.sh
+CMD /usr/bin/fah-client-init
 
 EXPOSE 7396
