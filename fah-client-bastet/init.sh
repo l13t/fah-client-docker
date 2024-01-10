@@ -5,7 +5,7 @@ FAH_ARGS="--web-root=/opt/fah-client/web"
 if [ ! -z "$FOLD_USER" ]; then
   FAH_ARGS="$FAH_ARGS --user=$FOLD_USER"
 else
-  FAH_ARGS="$FAH_ARGS --fold-anon=true"
+  FAH_ARGS="$FAH_ARGS --user=Anonymous"
 fi
 
 if [ ! -z "$FOLD_PASSKEY" ]; then
@@ -38,6 +38,10 @@ fi
 
 if [ ! -z "$FOLD_ALLOWED_ORIGINS" ]; then
   FAH_ARGS="$FAH_ARGS --allowed-origins=\"$FOLD_ALLOWED_ORIGINS\""
+fi
+
+if [ ! -z "$FOLD_EXTRA_ARGS" ]; then
+  FAH_ARGS="$FAH_ARGS $FOLD_EXTRA_ARGS"
 fi
 
 fah-client ${FAH_ARGS}
