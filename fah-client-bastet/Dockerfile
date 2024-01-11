@@ -4,6 +4,7 @@ FROM debian:stable-slim as builder
 ARG CLIENT_VERSION=8.3.1
 ARG CLIENT_SOURCE=alpha # Possible values: alpha, beta, public
 
+#hadolint ignore=DL3008,DL3015
 RUN apt-get update && \
     apt-get install -y curl debconf-utils
 
@@ -18,6 +19,7 @@ ARG CLIENT_VERSION=8.3.1
 
 WORKDIR /app
 
+#hadolint ignore=DL3018
 RUN apk add --no-cache git && \
     chown node:node /app
 
@@ -29,8 +31,10 @@ RUN git clone https://github.com/FoldingAtHome/fah-web-client-bastet.git . && \
 
 FROM debian:stable-slim
 LABEL maintainer="liet@liet.kiev.ua"
+LABEL org.opencontainers.image.description="Folding@Home client with web interface"
+LABEL org.opencontainers.image.source="https://github.com/liet/fah-client-bastet"
 
-ENV FOLD_USER='' \
+ENV FOLD_USER='Anonymous' \
     FOLD_PASSKEY='' \
     FOLD_TEAM=0 \
     FOLD_ALLOW_IP='' \
@@ -42,16 +46,15 @@ COPY --from=builder /usr/bin/fah-client /usr/bin/
 COPY --from=builder /etc/ssl /etc/ssl
 COPY --from=ui-builder /app/dist /opt/fah-client/web
 
-RUN useradd -ms /bin/bash fah-client -u 19000
+RUN groupadd -g 19000 fah-client && \
+    adduser --uid 19000 --gid 19000 --home /var/lib/fah-client --quiet fah-client
 
-RUN mkdir -p /opt/fah-client && \
-    chown -R fah-client:fah-client /opt/fah-client
-COPY init.sh /opt/fah-client/init.sh
-RUN chmod +x /opt/fah-client/init.sh
+COPY init.sh /usr/bin/fah-client-init
+RUN chmod +x /usr/bin/fah-client-init
 
 USER fah-client
-WORKDIR /opt/fah-client
+WORKDIR /var/lib/fah-client
 
-CMD /opt/fah-client/init.sh
+CMD ["/usr/bin/fah-client-init"]
 
 EXPOSE 7396

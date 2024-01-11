@@ -1,23 +1,19 @@
-name: Docker
+name: Build and push Docker images
 
 on:
   schedule:
     - cron: '19 6 * * 0'
   push:
     branches: [ master ]
-  # pull_request:
-  #   branches: [ master ]
-  #   paths:
-  #     - Dockerfile
 
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
 
-
 jobs:
   build:
     runs-on: ubuntu-latest
+
     strategy:
       fail-fast: false
       matrix:
@@ -25,9 +21,12 @@ jobs:
             - dockerfile: ./fah-client-bastet/Dockerfile
               image: ghcr.io/l13t/fah-client-bastet
               context: ./fah-client-bastet
+              platforms: linux/amd64,linux/arm64
             - dockerfile: ./fah-node/Dockerfile
               image: ghcr.io/l13t/fah-node
               context: ./fah-node
+              platforms: linux/amd64
+              
     permissions:
         contents: read
         packages: write
@@ -46,8 +45,6 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      # Login against a Docker registry except on PR
-      # https://github.com/docker/login-action
       - name: Log into registry ${{ env.REGISTRY }}
         if: github.event_name != 'pull_request'
         uses: docker/login-action@v3
@@ -56,16 +53,12 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Extract metadata (tags, labels) for Docker
-      # https://github.com/docker/metadata-action
       - name: Extract Docker metadata
         id: meta
         uses: docker/metadata-action@v5
         with:
           images: ${{ matrix.image }}
 
-      # Build and push Docker image with Buildx (don't push on PR)
-      # https://github.com/docker/build-push-action
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
@@ -74,4 +67,4 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ matrix.image }}:${{ env.RELEASE_DATE }},${{ matrix.image }}:latest
           labels: ${{ steps.meta.outputs.labels }}
-          platforms: linux/amd64,linux/arm64
+          platforms: ${{ matrix.platforms }}
