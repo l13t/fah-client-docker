@@ -12,8 +12,10 @@ LABEL org.opencontainers.image.source="https://github.com/liet/fah-client-bastet
 COPY --from=builder /usr/bin/fah-node /usr/bin/fah-node
 COPY init.sh /usr/bin/fah-node-init
 
+# hadolint ignore=DL3008,DL3015
 RUN apt-get update && \
     apt-get -y install curl && \
+    rm -rf /var/lib/apt/lists/* && \
     groupadd -g 19000 fah-node && \
     adduser --uid 19000 --gid 19000 --home /var/lib/fah-node --quiet fah-node && \
     mkdir -p /var/lib/fah-node && \
