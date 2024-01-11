@@ -50,6 +50,8 @@ docker run --env-file .dockerenv -v <persistant_volume>:/var/lib/fahclient/ ghcr
 
 In this case, `.dockerenv` should contain the environment variables you want to enable for your setup.
 
+Remember all processes inside a container are running by default with a `fah-client` user that has UID 19000 and GID 19000.
+
 ## Folding@Home Node Docker image
 
 ### Environment variables for Node container
@@ -89,3 +91,5 @@ docker run --env-file .dockerenv -v <persistant_volume>:/var/lib/fahclient/ ghcr
 ```
 
 In this case, .dockerenv should contain the environment variables you want to enable for your setup.
+
+Remember all processes inside a container are running by default with a `fah-node` user that has UID 19000 and GID 19000.

@@ -1,0 +1,24 @@
+name: Test Docker images
+
+on: [push, pull_request]
+
+jobs:  
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+            - dockerfile: ./fah-client-bastet/Dockerfile
+            - dockerfile: ./fah-node/Dockerfile
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: ${{ matrix.dockerfile }}
