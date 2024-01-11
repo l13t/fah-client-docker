@@ -4,6 +4,7 @@ FROM debian:stable-slim as builder
 ARG CLIENT_VERSION=8.3.1
 ARG CLIENT_SOURCE=alpha # Possible values: alpha, beta, public
 
+#hadolint ignore=DL3008,DL3015
 RUN apt-get update && \
     apt-get install -y curl debconf-utils
 
@@ -18,6 +19,7 @@ ARG CLIENT_VERSION=8.3.1
 
 WORKDIR /app
 
+#hadolint ignore=DL3018
 RUN apk add --no-cache git && \
     chown node:node /app
 
@@ -53,6 +55,6 @@ RUN chmod +x /usr/bin/fah-client-init
 USER fah-client
 WORKDIR /var/lib/fah-client
 
-CMD /usr/bin/fah-client-init
+CMD ["/usr/bin/fah-client-init"]
 
 EXPOSE 7396
