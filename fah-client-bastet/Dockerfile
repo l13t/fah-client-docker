@@ -1,7 +1,7 @@
 FROM debian:stable-slim as builder
 
 # fahclient version
-ARG CLIENT_VERSION=8.3.4
+ARG CLIENT_VERSION=8.3.3
 ARG CLIENT_SOURCE=alpha # Possible values: alpha, beta, public
 
 #hadolint ignore=DL3008,DL3015
@@ -15,7 +15,7 @@ RUN bash /root/build.sh ${CLIENT_VERSION} ${CLIENT_SOURCE}
 
 FROM node:21-alpine as ui-builder
 
-ARG CLIENT_VERSION=8.3.4
+ARG CLIENT_VERSION=8.3.3
 
 WORKDIR /app
 
