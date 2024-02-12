@@ -15,7 +15,7 @@ RUN bash /root/build.sh ${CLIENT_VERSION} ${CLIENT_SOURCE}
 
 FROM node:21-alpine as ui-builder
 
-ARG CLIENT_VERSION=8.3.1
+ARG CLIENT_VERSION=8.3.4
 
 WORKDIR /app
 
