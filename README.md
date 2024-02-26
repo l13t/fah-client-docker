@@ -36,16 +36,16 @@ docker run -e FOLD_USER=<your_username> \
            -e FOLD_ALLOW_IP=<allowed_ips> \
            -e FOLD_ON_IDLE=<true_or_false> \
            -e FOLD_EXTRA_ARGS=<extra_args> \
-           -v <persistant_volume>:/var/lib/fahclient/ \
+           -v <persistent_volume>:/var/lib/fahclient/ \
            ghcr.io/l13t/fah-client-bastet
 ```
 
-Replace `<your_username>`, `<your_passkey>`, `<your_team_number>`, `<allowed_ips>`, `<true_or_false>`, `<extra_args>`, and `<persistant_volume>` with your actual values.
+Replace `<your_username>`, `<your_passkey>`, `<your_team_number>`, `<allowed_ips>`, `<true_or_false>`, `<extra_args>`, and `<persistent_volume>` with your actual values.
 
 Alternatively, you can use an environment file:
 
 ```bash
-docker run --env-file .dockerenv -v <persistant_volume>:/var/lib/fahclient/ ghcr.io/l13t/fah-client-bastet
+docker run --env-file .dockerenv -v <persistent_volume>:/var/lib/fahclient/ ghcr.io/l13t/fah-client-bastet
 ```
 
 In this case, `.dockerenv` should contain the environment variables you want to enable for your setup.
@@ -78,16 +78,16 @@ docker run -e NODE_ADMINS=<admin_users> \
            -e NODE_GOOGLE_REDIRECT_BASE=<google_redirect_base> \
            -e NODE_HTTP_ADDRESSES=<http_addresses> \
            -e NODE_HTTPS_ADDRESSES=<https_addresses> \
-           -v <persistant_volume>:/var/lib/fahclient/ \
+           -v <persistent_volume>:/var/lib/fahclient/ \
            ghcr.io/l13t/fah-node-bastet
 ```
 
-Replace `<admin_users>`, `<domains>`, `<google_client_id>`, `<google_client_secret>`, `<google_redirect_base>`, `<http_addresses>`, `<https_addresses>`, and `<persistant_volume>` with your actual values.
+Replace `<admin_users>`, `<domains>`, `<google_client_id>`, `<google_client_secret>`, `<google_redirect_base>`, `<http_addresses>`, `<https_addresses>`, and `<persistent_volume>` with your actual values.
 
 Alternatively, you can use an environment file:
 
 ```bash
-docker run --env-file .dockerenv -v <persistant_volume>:/var/lib/fahclient/ ghcr.io/l13t/fah-node-bastet
+docker run --env-file .dockerenv -v <persistent_volume>:/var/lib/fahclient/ ghcr.io/l13t/fah-node-bastet
 ```
 
 In this case, .dockerenv should contain the environment variables you want to enable for your setup.
