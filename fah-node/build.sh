@@ -16,7 +16,7 @@ aarch64)
 esac
 
 apt-get update
-apt-get install -y curl scons build-essential libssl-dev binutils-dev libleveldb-dev libsnappy-dev git nodejs npm bind9-dnsutils ssl-cert
+apt-get install -y curl scons build-essential libssl-dev binutils-dev libleveldb-dev libsnappy-dev git nodejs npm bind9-dnsutils ssl-cert libsqlite3-dev default-libmysqlclient-dev default-libmysqld-dev
 
 cd /tmp && mkdir build && cd build
 
