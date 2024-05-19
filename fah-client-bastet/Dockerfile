@@ -1,7 +1,7 @@
 FROM debian:stable-slim as builder
 
 # fahclient version
-ARG CLIENT_VERSION=8.3.7
+ARG CLIENT_VERSION=8.3.13
 ARG CLIENT_SOURCE=alpha # Possible values: alpha, beta, public
 
 #hadolint ignore=DL3008,DL3015
