@@ -6,7 +6,7 @@ ARG CLIENT_SOURCE=alpha # Possible values: alpha, beta, public
 
 #hadolint ignore=DL3008,DL3015
 RUN apt-get update && \
-    apt-get install -y curl debconf-utils
+    apt-get install -y curl debconf-utils procps
 
 WORKDIR /root
 
@@ -48,6 +48,11 @@ COPY --from=ui-builder /app/dist /opt/fah-client/web
 
 RUN groupadd -g 19000 fah-client && \
     adduser --uid 19000 --gid 19000 --home /var/lib/fah-client --quiet fah-client
+
+#hadolint ignore=DL3008,DL3015
+RUN apt-get update && \
+    apt-get install -y procps && \
+    rm -rf /var/lib/apt/lists/*
 
 COPY init.sh /usr/bin/fah-client-init
 RUN chmod +x /usr/bin/fah-client-init
