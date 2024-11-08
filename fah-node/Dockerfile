@@ -1,4 +1,4 @@
-FROM  debian:stable-slim as builder
+FROM  debian:stable-slim AS builder
 
 COPY build.sh /tmp/build.sh
 
@@ -14,14 +14,14 @@ COPY init.sh /usr/bin/fah-node-init
 
 # hadolint ignore=DL3008,DL3015
 RUN apt-get update && \
-    apt-get -y install curl && \
-    rm -rf /var/lib/apt/lists/* && \
-    groupadd -g 19000 fah-node && \
-    adduser --uid 19000 --gid 19000 --home /var/lib/fah-node --quiet fah-node && \
-    mkdir -p /var/lib/fah-node && \
-    chown -R fah-node:fah-node /var/lib/fah-node && \
-    chmod 755 /usr/bin/fah-node-init && \
-    chmod 755 /usr/bin/fah-node
+	apt-get -y install curl && \
+	rm -rf /var/lib/apt/lists/* && \
+	groupadd -g 19000 fah-node && \
+	adduser --uid 19000 --gid 19000 --home /var/lib/fah-node --quiet fah-node && \
+	mkdir -p /var/lib/fah-node && \
+	chown -R fah-node:fah-node /var/lib/fah-node && \
+	chmod 755 /usr/bin/fah-node-init && \
+	chmod 755 /usr/bin/fah-node
 
 USER fah-node
 WORKDIR /var/lib/fah-node
