@@ -1,0 +1,73 @@
+name: Building and pushing Docker images for Folding@home client beta
+
+on:
+  schedule:
+    - cron: "19 6 * * 0"
+  push:
+    branches: [master]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - dockerfile: ./fah-client-bastet/Dockerfile
+            image: ghcr.io/l13t/fah-client-bastet
+            context: ./fah-client-bastet
+            platforms: linux/amd64,linux/arm64
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: set release date
+        run: |
+          echo "RELEASE_DATE=$(date '+%Y%m%d')" >> ${GITHUB_ENV}
+
+      - name: Get latest public version
+        run: |
+          FAH_RELEASE=beta bash ./fah-client-bastet/get_latest_version.sh
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log into registry ${{ env.REGISTRY }}
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ matrix.image }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          file: ${{ matrix.dockerfile }}
+          context: ${{ matrix.context }}
+          push: ${{ github.event_name != 'pull_request' }}
+          build-args: |
+            CLIENT_VERSION=${{ env.LATEST_VERSION }}
+            CLIENT_SOURCE=beta
+          tags: ${{ matrix.image }}:${{ env.RELEASE_DATE }},${{matrix.image}}:${{ env.LATEST_VERSION }},${{ matrix.image }}:latest-beta
+          labels: ${{ steps.meta.outputs.labels }}
+          platforms: ${{ matrix.platforms }}

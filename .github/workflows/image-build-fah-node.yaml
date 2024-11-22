@@ -1,4 +1,4 @@
-name: Build and push Docker images
+name: Building FAH Node Docker image
 
 on:
   schedule:
@@ -18,10 +18,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - dockerfile: ./fah-client-bastet/Dockerfile
-            image: ghcr.io/l13t/fah-client-bastet
-            context: ./fah-client-bastet
-            platforms: linux/amd64,linux/arm64
           - dockerfile: ./fah-node/Dockerfile
             image: ghcr.io/l13t/fah-node
             context: ./fah-node
@@ -38,10 +34,9 @@ jobs:
       - name: set release date
         run: |
           echo "RELEASE_DATE=$(date '+%Y%m%d')" >> ${GITHUB_ENV}
-
-      - name: Get latest public version
-        run: |
-          FAH_RELEASE=public bash ./fah-client-bastet/get_latest_version.sh
+          sudo apt-get update
+          sudo apt-get install jq
+          NODE_VERSION=$(jq -r .version ./package.json)
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -69,9 +64,6 @@ jobs:
           file: ${{ matrix.dockerfile }}
           context: ${{ matrix.context }}
           push: ${{ github.event_name != 'pull_request' }}
-          build-args: |
-            CLIENT_VERSION=${{ env.LATEST_VERSION }}
-            CLIENT_SOURCE=public
-          tags: ${{ matrix.image }}:${{ env.RELEASE_DATE }},${{matrix.image}}:${{ env.LATEST_VERSION }},${{ matrix.image }}:latest
+          tags: ${{ matrix.image }}:${{ env.RELEASE_DATE }},${{matrix.image}}:${{ env.NODE_VERSION }},${{ matrix.image }}:latest
           labels: ${{ steps.meta.outputs.labels }}
           platforms: ${{ matrix.platforms }}

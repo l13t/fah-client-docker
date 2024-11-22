@@ -1,4 +1,4 @@
-name: Build and push Docker images
+name: Building and pushing Docker images for Folding@home client public
 
 on:
   schedule:
@@ -22,10 +22,6 @@ jobs:
             image: ghcr.io/l13t/fah-client-bastet
             context: ./fah-client-bastet
             platforms: linux/amd64,linux/arm64
-          - dockerfile: ./fah-node/Dockerfile
-            image: ghcr.io/l13t/fah-node
-            context: ./fah-node
-            platforms: linux/amd64,linux/arm64
 
     permissions:
       contents: read
@@ -41,7 +37,7 @@ jobs:
 
       - name: Get latest public version
         run: |
-          FAH_RELEASE=beta bash ./fah-client-bastet/get_latest_version.sh
+          FAH_RELEASE=public bash ./fah-client-bastet/get_latest_version.sh
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -71,7 +67,7 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           build-args: |
             CLIENT_VERSION=${{ env.LATEST_VERSION }}
-            CLIENT_SOURCE=beta
-          tags: ${{ matrix.image }}:${{ env.RELEASE_DATE }},${{matrix.image}}:${{ env.LATEST_VERSION }},${{ matrix.image }}:latest-beta
+            CLIENT_SOURCE=public
+          tags: ${{ matrix.image }}:${{ env.RELEASE_DATE }},${{matrix.image}}:${{ env.LATEST_VERSION }},${{ matrix.image }}:latest
           labels: ${{ steps.meta.outputs.labels }}
           platforms: ${{ matrix.platforms }}
