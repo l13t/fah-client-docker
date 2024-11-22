@@ -38,9 +38,8 @@ jobs:
         run: |
           echo "RELEASE_DATE=$(date '+%Y%m%d')" >> ${GITHUB_ENV}
           sudo apt-get -qq update
-          sudo apt-get -qq install gojq
-          ls -la ./fah-node
-          NODE_VERSION=$(gojq -r .version ./fah-node/package.json)
+          sudo apt-get -qq install gojq curl
+          NODE_VERSION=$(curl --silent https://raw.githubusercontent.com/FoldingAtHome/fah-node/refs/heads/main/package.json | gojq -r '.version')
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
