@@ -19,7 +19,8 @@ aarch64)
     ;;
 esac
 
-LATEST_VERSION=$(curl -s https://download.foldingathome.org/releases/public/fah-client/meta.json | jq -r '.[] | select((.package | contains("debian")) and (.package | contains("release")) and (.package | contains("'$ARCH_PATH'")) and (.package | contains(".deb"))) | .version | join(".")')
+# LATEST_VERSION=$(curl -s https://download.foldingathome.org/releases/public/fah-client/meta.json | jq -r '.[] | select((.package | contains("debian")) and (.package | contains("release")) and (.package | contains("'$ARCH_PATH'")) and (.package | contains(".deb"))) | .version | join(".")')
+LATEST_VERSION=$(curl -s https://download.foldingathome.org/releases/${FAH_RELEASE}/fah-client/meta.json | jq -r '.[] | select((.package | contains("debian")) and (.package | contains("release")) and (.package | contains("'$ARCH_PATH'")) and (.package | contains(".deb"))) | .version | join(".")')
 
 echo "Building for $ARCH version $LATEST_VERSION"
 

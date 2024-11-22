@@ -41,7 +41,7 @@ jobs:
 
       - name: Get latest public version
         run: |
-          bash ./fah-client-bastet/get_latest_version.sh
+          FAH_RELEASE=public bash ./fah-client-bastet/get_latest_version.sh
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
