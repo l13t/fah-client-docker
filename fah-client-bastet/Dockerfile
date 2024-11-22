@@ -1,4 +1,4 @@
-FROM debian:stable-slim as builder
+FROM debian:stable-slim AS builder
 
 # fahclient version
 ARG CLIENT_VERSION
@@ -13,7 +13,7 @@ WORKDIR /root
 COPY build.sh /root/build.sh
 RUN bash /root/build.sh ${CLIENT_VERSION} ${CLIENT_SOURCE}
 
-FROM node:21-alpine as ui-builder
+FROM node:21-alpine AS ui-builder
 
 ARG CLIENT_VERSION
 
@@ -30,6 +30,7 @@ RUN git clone https://github.com/FoldingAtHome/fah-web-client-bastet.git . && \
     npm run build
 
 FROM debian:stable-slim
+
 LABEL maintainer="liet@liet.kiev.ua"
 LABEL org.opencontainers.image.description="Folding@Home client with web interface"
 LABEL org.opencontainers.image.source="https://github.com/liet/fah-client-bastet"

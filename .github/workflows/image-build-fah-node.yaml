@@ -5,6 +5,9 @@ on:
     - cron: "19 6 * * 0"
   push:
     branches: [master]
+    paths:
+      - "fah-node/**"
+      - .github/workflows/image-build-fah-node.yaml
 
 env:
   REGISTRY: ghcr.io
@@ -34,8 +37,9 @@ jobs:
       - name: set release date
         run: |
           echo "RELEASE_DATE=$(date '+%Y%m%d')" >> ${GITHUB_ENV}
-          sudo apt-get update
-          sudo apt-get install gojq
+          sudo apt-get -qq update
+          sudo apt-get -qq install gojq
+          ls -la
           NODE_VERSION=$(gojq -r .version ./fah-node/package.json)
 
       - name: Set up QEMU

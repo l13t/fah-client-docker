@@ -5,6 +5,7 @@ COPY build.sh /tmp/build.sh
 RUN bash /tmp/build.sh
 
 FROM debian:stable-slim
+
 LABEL maintainer="liet@liet.kiev.ua"
 LABEL org.opencontainers.image.description="Folding@Home node application"
 LABEL org.opencontainers.image.source="https://github.com/liet/fah-client-bastet"

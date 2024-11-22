@@ -5,6 +5,9 @@ on:
     - cron: "19 6 * * 0"
   push:
     branches: [master]
+    paths:
+      - "fah-client-bastet/**"
+      - .github/workflows/image-build-fahc-beta.yaml
 
 env:
   REGISTRY: ghcr.io
