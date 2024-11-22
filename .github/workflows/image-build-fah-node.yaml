@@ -34,12 +34,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: set release date
+      - name: set release date and node version
         run: |
-          echo "RELEASE_DATE=$(date '+%Y%m%d')" >> ${GITHUB_ENV}
           sudo apt-get -qq update
           sudo apt-get -qq install gojq curl
           NODE_VERSION=$(curl --silent https://raw.githubusercontent.com/FoldingAtHome/fah-node/refs/heads/main/package.json | gojq -r '.version')
+          echo "RELEASE_DATE=$(date '+%Y%m%d')" >> ${GITHUB_ENV}
           echo "NODE_VERSION=${NODE_VERSION}" >> ${GITHUB_ENV}
 
       - name: Set up QEMU
