@@ -39,7 +39,7 @@ jobs:
           echo "RELEASE_DATE=$(date '+%Y%m%d')" >> ${GITHUB_ENV}
           sudo apt-get -qq update
           sudo apt-get -qq install gojq
-          ls -la
+          ls -la ./fah-node
           NODE_VERSION=$(gojq -r .version ./fah-node/package.json)
 
       - name: Set up QEMU
