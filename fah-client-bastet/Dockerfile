@@ -13,21 +13,21 @@ WORKDIR /root
 COPY build.sh /root/build.sh
 RUN bash /root/build.sh ${CLIENT_VERSION} ${CLIENT_SOURCE}
 
-FROM node:21-alpine AS ui-builder
+# FROM node:21-alpine AS ui-builder
 
-ARG CLIENT_VERSION
+# ARG CLIENT_VERSION
 
-WORKDIR /app
+# WORKDIR /app
 
-#hadolint ignore=DL3018
-RUN apk add --no-cache git && \
-    chown node:node /app
+# #hadolint ignore=DL3018
+# RUN apk add --no-cache git && \
+#     chown node:node /app
 
-RUN git clone https://github.com/FoldingAtHome/fah-web-client-bastet.git . && \
-    git config --global --add safe.directory /app && \
-    git checkout "v${CLIENT_VERSION}" && \
-    npm install && \
-    npm run build
+# RUN git clone https://github.com/FoldingAtHome/fah-web-client-bastet.git . && \
+#     git config --global --add safe.directory /app && \
+#     git checkout "v${CLIENT_VERSION}" && \
+#     npm install && \
+#     npm run build
 
 FROM debian:stable-slim
 
@@ -45,7 +45,7 @@ USER root
 
 COPY --from=builder /usr/bin/fah-client /usr/bin/
 COPY --from=builder /etc/ssl /etc/ssl
-COPY --from=ui-builder /app/dist /opt/fah-client/web
+# COPY --from=ui-builder /app/dist /opt/fah-client/web
 
 RUN groupadd -g 19000 fah-client && \
     adduser --uid 19000 --gid 19000 --home /var/lib/fah-client --quiet fah-client
